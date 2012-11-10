@@ -1,4 +1,5 @@
-require File.dirname(__FILE__) + "/setup"
+require File.dirname(__FILE__) + "/lib/setup"
+require File.dirname(__FILE__) + "/lib/extensions"
 require "debugger"
 require "httparty"
 require "yaml"
@@ -7,7 +8,7 @@ require "json"
 module HackerToDo
   GIST_FILE_NAME = "hacker_todo"
   GIST_DESCRIPTION = "Hacker To Do"
-  
+
   class ToDoList
     include HTTParty
     base_uri "https://api.github.com"
@@ -20,10 +21,11 @@ module HackerToDo
     end
 
     def list
-      if @todo_id.nil?
-        puts "You need to create a todo first"
+      content = get_todo_content(@todo_gist)
+      if @todo_id.nil? || content.empty?
+        puts "You need to create a ToDo first"
       else
-        get_todo_content(@todo_gist).each_with_index do |task, index|
+        content.each_with_index do |task, index|
           puts "#{index + 1}. #{task}"
         end
       end
@@ -33,13 +35,15 @@ module HackerToDo
       content = task_list.split("\\n")
       route = @todo_id.nil? ? "/gists" : "/gists/#{@todo_id}"
       post_gist(route, append_todo_content(content))
+      puts "ToDo added successfully."
+      list
     end
 
-    def delete(index)
-      task_index = index.to_i - 1
+    def delete(*indexes)
       todo_array = get_todo_content(@todo_gist)
-      todo_array.delete_at(task_index) 
-      post_gist("/gists/#{@todo_id}", todo_array)
+      post_gist("/gists/#{@todo_id}", todo_array.delete_indexes(indexes.collect{|index| index.to_i - 1}))
+      puts "ToDo deleted successfully."
+      list
     end
 
     def find_todo_entry
