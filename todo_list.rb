@@ -38,7 +38,7 @@ module HackerToDo
       end
     end
 
-    def add(*task_list)
+    def add(task_list)
       content = task_list.split("\\n")
       route = @todo_id.nil? ? "/gists" : "/gists/#{@todo_id}"
       post_gist(route, append_todo_content(content))
@@ -68,7 +68,7 @@ module HackerToDo
     end
 
     def append_todo_content(content)
-      @todo_gist.nil? ? content : get_todo_content(@todo_gist) + content
+      @todo_gist.nil? ? content : get_todo_content + content
     end
 
     def create_gist_json(content)
