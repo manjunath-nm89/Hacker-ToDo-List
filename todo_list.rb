@@ -23,7 +23,7 @@ module HackerToDo
     def list
       content = get_todo_content(@todo_gist)
       if @todo_id.nil? || content.empty?
-        puts "You need to create a ToDo first"
+        puts "You need to create a ToDo"
       else
         content.each_with_index do |task, index|
           puts "#{index + 1}. #{task}"
