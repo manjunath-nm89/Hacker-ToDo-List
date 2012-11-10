@@ -1,5 +1,6 @@
-require File.dirname(__FILE__) + "/lib/setup"
+require File.dirname(__FILE__) + "/lib/core_methods.rb"
 require File.dirname(__FILE__) + "/lib/extensions"
+require File.dirname(__FILE__) + "/lib/setup"
 require "debugger"
 require "httparty"
 require "yaml"
@@ -20,18 +21,24 @@ module HackerToDo
       @todo_id = @todo_gist.nil? ? nil : @todo_gist["id"]
     end
 
+    def get_todo_content
+      YAML.load(@todo_gist["files"][GIST_FILE_NAME]["content"])
+    end
+
     def list
-      content = get_todo_content(@todo_gist)
+      content = get_todo_content
       if @todo_id.nil? || content.empty?
         puts "You need to create a ToDo"
       else
-        content.each_with_index do |task, index|
-          puts "#{index + 1}. #{task}"
-        end
+        HackerToDo.list_formatter do
+          content.each_with_index do |task, index|
+            puts "#{index + 1}. #{task}"
+          end
+        end  
       end
     end
 
-    def add(task_list)
+    def add(*task_list)
       content = task_list.split("\\n")
       route = @todo_id.nil? ? "/gists" : "/gists/#{@todo_id}"
       post_gist(route, append_todo_content(content))
@@ -40,8 +47,7 @@ module HackerToDo
     end
 
     def delete(*indexes)
-      todo_array = get_todo_content(@todo_gist)
-      post_gist("/gists/#{@todo_id}", todo_array.delete_indexes(indexes.collect{|index| index.to_i - 1}))
+      post_gist("/gists/#{@todo_id}", get_todo_content.delete_indexes(indexes.collect{|index| index.to_i - 1}))
       puts "ToDo deleted successfully."
       list
     end
@@ -63,10 +69,6 @@ module HackerToDo
 
     def append_todo_content(content)
       @todo_gist.nil? ? content : get_todo_content(@todo_gist) + content
-    end
-
-    def get_todo_content(gist_object)
-      YAML.load(gist_object["files"][GIST_FILE_NAME]["content"])
     end
 
     def create_gist_json(content)
