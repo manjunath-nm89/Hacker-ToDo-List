@@ -1,13 +1,4 @@
 module HackerToDo
-
-  def self.get_from_console(console_string, hide_input = false)
-    print "#{console_string} "
-    system "stty -echo" if hide_input
-    user_input = gets.chomp
-    system "stty echo" if hide_input
-    return user_input
-  end
-  
   class Setup
     CREDENTIAL_FILE = ".hacker_todo"
     attr_accessor :auth
