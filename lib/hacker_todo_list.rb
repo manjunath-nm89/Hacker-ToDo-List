@@ -54,7 +54,7 @@ module HackerToDo
     def find_todo_entry
       todo_entry = self.class.get("/users/#{@github_creds[:username]}/gists", 
         {:basic_auth => @github_creds}).find do |gist|
-          gist["files"].has_key?(GIST_FILE_NAME) && gist["description"] == GIST_DESCRIPTION
+          gist && gist["files"].has_key?(GIST_FILE_NAME) && gist["description"] == GIST_DESCRIPTION
       end
       self.class.get("/gists/#{todo_entry["id"]}", {:basic_auth => @github_creds}) if todo_entry
     end
