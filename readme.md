@@ -44,8 +44,18 @@ Usage
     Hacker ToDo List:
     1. Learn to play Guitar
 
-Examples
---------
+ToDo Application
+-----------
 
 I have setup a client which uses the [Hacker ToDO List](https://rubygems.org/gems/hacker_todo_list) gem.
 Check it out, this file can be made as an executable and used as a ToDo application.
+    
+    > gem install "hacker_todo_list"
+    > echo "alias todo='ruby path/to/hacker_todo_list_client.rb'" >> ~/.bashrc
+    > source ~/.bashrc (or open a new terminal)
+
+Now from anywhere, you can do,
+   
+    > todo add "Go to the grocery store"
+    > todo delete 1
+    > todo
