@@ -4,14 +4,15 @@ module HackerToDo
     attr_accessor :auth
 
     def initialize
-      if File.exist?(CREDENTIAL_FILE)
-        @auth = YAML.load(File.read(CREDENTIAL_FILE))
+      credential_file_location = File.join(Dir.home, CREDENTIAL_FILE)
+      if File.exists?(credential_file_location)
+        @auth = YAML.load(File.read(credential_file_location))
       else
         @auth = {
           :username => HackerToDo.get_from_console("Username:"), 
           :password => HackerToDo.get_from_console("Password:", true)
         }
-        File.write(CREDENTIAL_FILE, @auth.to_yaml)
+        File.write(credential_file_location, @auth.to_yaml)
       end
     end
   end
