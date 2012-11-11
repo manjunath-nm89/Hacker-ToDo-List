@@ -1,7 +1,6 @@
 require File.dirname(__FILE__) + "/hacker_todo_list/core_methods.rb"
 require File.dirname(__FILE__) + "/hacker_todo_list/extensions"
 require File.dirname(__FILE__) + "/hacker_todo_list/setup"
-require "debugger"
 require "httparty"
 require "yaml"
 require "json"
