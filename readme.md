@@ -51,11 +51,11 @@ I have setup a client which uses the [Hacker ToDO List](https://rubygems.org/gem
 Check it out, this file can be made as an executable and used as a ToDo application.
     
     > gem install "hacker_todo_list"
-    > echo "alias todo='ruby path/to/hacker_todo_list_client.rb'" >> ~/.bashrc
+    > echo "alias hacker_todo='ruby path/to/hacker_todo_list_client.rb'" >> ~/.bashrc
     > source ~/.bashrc (or open a new terminal)
 
 Now from anywhere, you can do,
    
-    > todo add "Go to the grocery store"
-    > todo delete 1
-    > todo
+    > hacker_todo add "Go to the grocery store"
+    > hacker_todo delete 1
+    > hacker_todo
