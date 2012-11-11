@@ -84,7 +84,3 @@ module HackerToDo
     end
   end
 end
-
-@todo_list = HackerToDo::ToDoList.new
-method = ARGV.any? ? ARGV : ["list"]
-@todo_list.send(*method)
