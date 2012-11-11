@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'hacker_todo_list'
-  s.version     = '1.0.2'
+  s.version     = '1.1.0'
   s.date        = '2012-11-11'
   s.summary     = "A command line To-Do list"
   s.description = %Q{
