@@ -54,9 +54,17 @@ module HackerToDo
     def find_todo_entry
       todo_entry = self.class.get("/users/#{@github_creds[:username]}/gists", 
         {:basic_auth => @github_creds}).find do |gist|
-          gist && gist["files"].has_key?(GIST_FILE_NAME) && gist["description"] == GIST_DESCRIPTION
+          unless gist.is_a?(Array)
+            gist["files"].has_key?(GIST_FILE_NAME) && gist["description"] == GIST_DESCRIPTION
+          end
       end
-      self.class.get("/gists/#{todo_entry["id"]}", {:basic_auth => @github_creds}) if todo_entry
+      if todo_entry
+        return self.class.get("/gists/#{todo_entry["id"]}", {:basic_auth => @github_creds}) 
+      else
+        puts "Your github credentials are incorrect"
+        system "rm -f #{HackerToDo::Setup::CREDENTIAL_FILE}"
+        return nil
+      end
     end
 
     private
