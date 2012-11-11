@@ -62,7 +62,8 @@ module HackerToDo
         return self.class.get("/gists/#{todo_entry["id"]}", {:basic_auth => @github_creds}) 
       else
         puts "Your github credentials are incorrect"
-        system "rm -f #{HackerToDo::Setup::CREDENTIAL_FILE}"
+        credential_file = File.join(Dir.home, HackerToDo::Setup::CREDENTIAL_FILE)
+        system "rm -f #{credential_file}"
         return nil
       end
     end
